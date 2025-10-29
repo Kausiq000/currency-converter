@@ -47,7 +47,8 @@ def main():
     # Start the application
     try:
         port = int(os.getenv('PORT', '5000'))
-        app.run(debug=True, host='0.0.0.0', port=port)
+        debug = os.getenv('FLASK_ENV') != 'production'
+        app.run(debug=debug, host='0.0.0.0', port=port)
     except KeyboardInterrupt:
         print("\n\nApplication stopped by user")
     except Exception as e:
