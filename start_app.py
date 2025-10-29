@@ -15,16 +15,16 @@ def setup_application():
     # Create database tables
     with app.app_context():
         db.create_all()
-        print("✓ Database tables created")
+        print("[OK] Database tables created")
         
         # Initialize currencies
         init_currencies()
-        print("✓ Currencies initialized")
+        print("[OK] Currencies initialized")
         
         # Check currency count
         from app import Currency
         count = Currency.query.count()
-        print(f"✓ Loaded {count} currencies")
+        print(f"[OK] Loaded {count} currencies")
     
     print("\nApplication setup complete!")
     print("\nTo get started:")
@@ -40,13 +40,14 @@ def main():
     # Check for API key
     api_key = os.getenv('EXCHANGE_API_KEY')
     if not api_key or api_key == 'your-api-key-here':
-        print("\n⚠️  WARNING: No API key found!")
+        print("\nWARNING: No API key found!")
         print("The application will work with cached data only.")
         print("To enable real-time rates, set EXCHANGE_API_KEY in your .env file")
     
     # Start the application
     try:
-        app.run(debug=True, host='0.0.0.0', port=5000)
+        port = int(os.getenv('PORT', '5000'))
+        app.run(debug=True, host='0.0.0.0', port=port)
     except KeyboardInterrupt:
         print("\n\nApplication stopped by user")
     except Exception as e:
